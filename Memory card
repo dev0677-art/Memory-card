@@ -1,0 +1,203 @@
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QLabel, QMessageBox, QRadioButton, QGroupBox
+
+
+
+import random
+
+class Question():
+    def __init__(self, question, right_answer, answer1, answer2, answer3, answer4):
+        self.question = question
+        self.right_answer = right_answer
+        self.answer1 = answer1
+        self.answer2 = answer2
+        self.answer3 = answer3
+        self.answer4 = answer4
+
+questions_answer = []
+questions_answer.append(
+    Question('Какой язык в бразили', 'Португальский', 'Английский', 'Испанский', 'Русский', 'Арабский' ))
+questions_answer.append(
+    Question('Какой цвет нет на флаге России', 'Белый', 'Зеленый', 'Красный', 'Черный', 'Голубой'))
+questions_answer.append(
+    Question('Где создали футбол в', 'Англий', 'Франции', 'Бразилии', 'России', 'Лондоне'))
+        
+        
+
+
+
+
+
+
+    
+
+def ask(q: Question):
+    shuffle(answer)
+    answer[0].setText(q.right_answer)
+    answer[1].setText(q.answer1)
+    answer[2].setText(q.answer2)
+    answer[3].setText(q.answer3)
+    answer[4].setText(q.answer4)
+    lb_Question.setText(q.question)
+    lb_Question.setText(q.right_answer)
+    show_questions()
+
+        
+        
+        
+            
+
+def show_result(self):
+    self.answer_from.hide()
+    self.result_form.show()
+    self.btn_answer.SetText('Следующий вопрос')
+    self.show_correct_answer()
+
+
+def show_question(self):
+    self.result_form.hide()
+    self.answer_form.show()
+    self.btn_answer.setText('Ответить')
+    self.reset_radio_buttons()
+
+    self.next_question()
+
+
+def start_test(self):
+    if self.btn_answer.text() == 'Ответить':
+        self.show_result()
+    elif self.btn_answer.text() == 'Следующий вопрос':
+        self.show_question()
+
+
+def next_question(self):
+    self.cirrent_question_index += 1
+    if self.current_questions_index >= len(self.questions_list):
+        self.current_questions_index = 0
+    
+    next_q = self.questions_list[self.current_questions_index]
+    self.show_question(next_q)
+
+def click_ok(self):
+    if self.showing_question:
+        self.check_answer()
+    else:
+        self.next_question()
+
+
+
+
+
+
+
+
+def check():
+    print(button1.isChecked())
+    main_win.hide()
+    new_win.show()
+def new_question():
+    new_win.hide()
+    main_win.show()
+    shuffle_vareants()
+    
+
+
+def check_answer():
+    RadioGroupBox.hide()
+    AnsGroupBox.show()
+    check_correct_answer()
+    bth_OK.clicked.disconnect()
+    bth_OK.clicked.connect(check_question)
+
+
+
+
+def check_question():
+    RadioGroupBox.show()
+    AnsGroupBox.hide()
+    bth_OK.clicked.disconnect()
+    bth_OK.clicked.connect(check_answer)
+
+def shuffle_vareants():
+    list_shuffle=questions_answer[0:4]
+    random.shuffle(list_shuffle)
+    button1.setText(answer1.questions)
+    button2.setText(answer2)
+    button3.setText(answer3)
+    button4.setText(answer4)
+    
+
+def check_correct_answer():
+    if button1.text==question[4] and button1.isChecked():
+        lb_Result.setText('Верно')
+    elif button2.text==question[4] and button2.isChecked():
+        lb_Result.setText('Верно')
+    elif button3.text==question[4] and button3.isChecked():
+        lb_Result.setText('Верно') 
+    elif button4.text==question[4] and button4.isChecked():
+        lb_Result.setText('Верно')
+    else:
+        lb_Result('Неверно')
+
+
+
+
+
+
+app = QApplication([])
+main_win = QWidget()
+main_win.resize(400, 200)
+question = QLabel('Какой национальности не существует')
+box=QGroupBox()
+button1 = QRadioButton('Энцы')
+button2 = QRadioButton('Чулымцы')
+button3 = QRadioButton('Смурфы')
+button4 = QRadioButton('Алеуты')
+label_top=QLabel('Варианты ответа')
+button_bot=QPushButton('проверить')
+layout_main= QVBoxLayout()
+layout1= QVBoxLayout()
+layout2= QHBoxLayout()
+layout3= QHBoxLayout()
+layout1.addWidget(question,alignment = Qt.AlignCenter)
+layout2.addWidget(button1,alignment = Qt.AlignCenter)
+layout2.addWidget(button2,alignment = Qt.AlignCenter)
+layout3.addWidget(button3,alignment = Qt.AlignCenter)
+layout3.addWidget(button4,alignment = Qt.AlignCenter)
+layout_main.addLayout(layout1)
+layout_main.addWidget(label_top, alignment=Qt.AlignBottom)
+layout1.addLayout(layout2)
+layout1.addLayout(layout3)
+
+
+box.setLayout(layout1)
+new_win=QWidget()
+new_win.resize(500,300)
+new_label=QLabel('Какой национальности не существует?')
+new_box=QGroupBox()
+new_button=QPushButton('продолжить')
+new_main_layout=QVBoxLayout()
+label_confirm=QLabel('Правельно/Неправельно')
+label_answer=QLabel('Правельный ответ')
+layout_answer =QVBoxLayout()
+layout_confirm=QHBoxLayout()
+layout_confirm.addWidget(label_confirm,alignment=Qt.AlignLeft)
+layout_answer.addLayout(layout_confirm)
+layout_answer.addWidget(label_answer,alignment =Qt.AlignCenter)
+new_box.setLayout(layout_answer)
+new_main_layout.addWidget(new_label,alignment=Qt.AlignCenter)
+new_main_layout.addWidget(new_box)
+new_main_layout.addWidget(new_button,alignment=Qt.AlignCenter)
+layout_main.addWidget(box)
+layout_main.addWidget(button_bot)
+new_win.setLayout(new_main_layout)
+new_button.clicked.connect(new_question)
+button_bot.clicked.connect(check)
+main_win.setLayout(layout_main)
+
+
+
+        
+
+main_win.show()
+app.exec_()
